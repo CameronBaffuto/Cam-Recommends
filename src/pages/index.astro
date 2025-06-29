@@ -1,13 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-import * as Post1 from './posts/post-1.md';
-import * as Post2 from './posts/post-2.md';
-
-const posts = [
-  { url: '/posts/post-1', title: Post1.frontmatter.title, date: Post1.frontmatter.date, description: Post1.frontmatter.description, ...Post1.frontmatter },
-  { url: '/posts/post-2', title: Post2.frontmatter.title, date: Post2.frontmatter.date, description: Post2.frontmatter.description, ...Post2.frontmatter },
-];
+const postImports = import.meta.glob('./posts/*.md', { eager: true });
+const posts = Object.entries(postImports).map(([path, mod]) => {
+  const m = mod as { frontmatter: any };
+  return {
+    url: path.replace('./', '/').replace('.md', ''),
+    title: m.frontmatter.title,
+    date: m.frontmatter.date,
+    description: m.frontmatter.description,
+    ...m.frontmatter
+  };
+});
 posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
