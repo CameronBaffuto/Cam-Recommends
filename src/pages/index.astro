@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import * as Post1 from './posts/post-1.md';
+import * as Post2 from './posts/post-2.md';
+
+const posts = [
+  { url: '/posts/post-1', title: Post1.frontmatter.title, date: Post1.frontmatter.date, description: Post1.frontmatter.description, ...Post1.frontmatter },
+  { url: '/posts/post-2', title: Post2.frontmatter.title, date: Post2.frontmatter.date, description: Post2.frontmatter.description, ...Post2.frontmatter },
+];
+posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<Layout title="Cam Recommends">
+<div class="w-full flex justify-center">
+	<section class="max-w-6xl mx-auto grid gap-8 p-6 md:grid-cols-2 lg:grid-cols-3">
+		{posts.map(post => (
+		<div class="card bg-base-200 shadow-md hover:shadow-xl transition-all">
+			<div class="card-body">
+			<h2 class="card-title">
+				<a href={post.url} class="link link-hover">{post.title}</a>
+			</h2>
+			<p class="text-sm opacity-70">{new Date(post.date).toLocaleDateString()}</p>
+			<p>{post.description}</p>
+			<div class="card-actions justify-end mt-4">
+				<a href={post.url} class="btn btn-sm btn-primary">Read More</a>
+			</div>
+			</div>
+		</div>
+		))}
+	</section>
+</div>
+</Layout>

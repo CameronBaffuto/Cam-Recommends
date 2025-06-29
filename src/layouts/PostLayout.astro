@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+const { title, date } = Astro.props;
+---
+
+<html lang="en" data-theme="garden">
+  <head>
+    <title>{title} | Cam Recommends</title>
+    <meta name="description" content={title} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="navbar bg-base-100 shadow">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold">Cam Recommends</a>
+      </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-6 prose lg:prose-xl">
+      <h1>{title}</h1>
+      <p class="text-sm opacity-70">
+        {date}
+      </p>      
+      <slot />
+    </main>
+
+    <footer class="bg-base-200 p-4 text-center text-sm">
+      {new Date().getFullYear()} Cam Recommends - Trusted Reviews
+    </footer>
+  </body>
+</html>
